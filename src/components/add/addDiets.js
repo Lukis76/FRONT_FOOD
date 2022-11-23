@@ -13,6 +13,7 @@ export const AddDiets = ({ setNewRecipe }) => {
     if (!diets.length) {
       dispatch(getTypes())
     }
+    // eslint-disable-next-line 
   }, [])
 
   const handleChange = (e) => {
@@ -35,7 +36,11 @@ export const AddDiets = ({ setNewRecipe }) => {
         {diets?.map((el) => {
           return (
             <label key={el}>
-              <input type='checkbox' name={el} onChange={handleChange} />
+              <input
+                type='checkbox'
+                name={el}
+                onChange={handleChange}
+              />
               <p>{el}</p>
             </label>
           )

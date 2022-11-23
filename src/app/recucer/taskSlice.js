@@ -28,6 +28,11 @@ export const taskSlice = createSlice({
     },
     /*------------------------------------------------------------ */
     /*------------------------------------------------------------ */
+    setClearDetail: (state, action) => {
+      state.details = []
+    },
+    /*------------------------------------------------------------ */
+    /*------------------------------------------------------------ */
     setGetRecipeID: (state, action) => {
       state.details = action.payload
     },
@@ -38,7 +43,7 @@ export const taskSlice = createSlice({
         state.recipes = state.recipesAll
       } else {
         const result = state.recipesAll.filter((el) =>
-          el.name.toLowerCase().includes(action.payload)
+          el.name.toLowerCase().includes(action.payload.toLowerCase())
         )
         state.recipes = result
       }
@@ -77,6 +82,7 @@ export const taskSlice = createSlice({
       }
       /*////////////////////////// Diets /////////////////////////////*/
       if (action.payload.diet !== 'all') {
+        // eslint-disable-next-line
         result = result.filter((el) => {
           if (el.diets.length > 0) {
             if (el.diets.find((el) => el === action.payload.diet)) {
@@ -95,6 +101,7 @@ export const taskSlice = createSlice({
 export const {
   setGetRecipes,
   setFilterSearch,
+  setClearDetail,
   setGetRecipeID,
   setGetTypes,
   setPaguination,

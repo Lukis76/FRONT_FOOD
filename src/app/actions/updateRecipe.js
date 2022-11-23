@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { BACKEND_FOOD } from '../../config'
 
-export const postRecipe = (data) => {
+export const updateRecipe = (data, id) => {
   axios
-    .post(`${BACKEND_FOOD}recipes`, data)
+    .put(`${BACKEND_FOOD}details/${id}`, data)
     .catch((err) => console.error(err))
 }

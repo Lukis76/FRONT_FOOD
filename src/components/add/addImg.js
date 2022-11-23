@@ -1,80 +1,102 @@
 import styled from 'styled-components'
 import { center } from '../../style/shorcuts'
+// eslint-disable-next-line
 import { useRef, useState } from 'react'
+import { Err, Input } from './viewAdd'
 
-export const AddImg = ({ setError, setNewRecipe, error }) => {
-  // let file = ''
-  // const [valid, setValid] = useState({
-  //   locura: 'automatica',
-  //   imgextensionValid: '',
-  // })
-  // const inputRef = useRef()
-  // const marcoRef = useRef()
-  // const textRef = useRef()
+export const AddImg = ({ setError, setNewRecipe, error, value }) => {
+  let file = ''
+  const [valid, setValid] = useState({
+    locura: 'automatica',
+    imgextensionValid: '',
+  })
+  const inputRef = useRef()
+  const marcoRef = useRef()
+  const textRef = useRef()
 
-  // const handleDragOver = (e) => {
-  //   e.preventDefault()
-  //   marcoRef.current.classList.add('img-active')
-  //   textRef.current.textContent = 'release to upload file'
-  // }
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    marcoRef.current.classList.add('img-active')
+    textRef.current.textContent = 'release to upload file'
+  }
 
-  // const handleDragLeave = (e) => {
-  //   e.preventDefault()
-  //   marcoRef.current.classList.remove('img-active')
-  //   textRef.current.textContent = 'drag and drop image'
-  // }
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    marcoRef.current.classList.remove('img-active')
+    textRef.current.textContent = 'drag and drop image'
+  }
 
-  // const handleDrop = (e) => {
-  //   e.preventDefault()
-  //   if (e.dataTransfer.files.length) {
-  //     setValid((state) => {
-  //       return {
-  //         ...state,
-  //         imgextensionValid: 'more than one file is not supported',
-  //       }
-  //     })
-  //   } else {
-  //     const file = e.dataTransfer.files[0]
-  //     processFile(file)
-  //   }
-  // }
+  const handleDrop = (e) => {
+    e.preventDefault()
+    if (e.dataTransfer.files.length) {
+      setValid((state) => {
+        return {
+          ...state,
+          imgextensionValid: 'more than one file is not supported',
+        }
+      })
+    } else {
+      const file = e.dataTransfer.files[0]
+      processFile(file)
+    }
+  }
 
-  // const processFile = (file) => {
-  //   const docType = file.type
-  //   const valiudExtension = ['image/png', 'image/jpeg', 'image/jpg']
-  //   if (valiudExtension.includes(docType)) {
-  //     setValid({ ...valid, imgextensionValid: '' })
-  //   } else {
-  //     setValid({ ...valid, imgextensionValid: 'invalid file extension' })
-  //   }
-  // }
-  // console.log('console programatico => ', valid)
+  const processFile = (file) => {
+    const docType = file.type
+    const valiudExtension = ['image/png', 'image/jpeg', 'image/jpg']
+    if (valiudExtension.includes(docType)) {
+      setValid({ ...valid, imgextensionValid: '' })
+    } else {
+      setValid({ ...valid, imgextensionValid: 'invalid file extension' })
+    }
+  }
 
-  // const handleChange = (e) => {
 
-  // }
+  const [imagen, setImagen] = useState(value || '')
+
+  const handleChange = (e) => {
+    setImagen(e.target.value)
+    if (e.target.value === '') {
+      setError((state) => ({ ...state, validImg: 'image link field required' }))
+    }
+    if (e.target.value.length < 6) {
+      setError((state) => ({ ...state, validImg: 'this link is not valid' }))
+    } else if (
+      // eslint-disable-next-line
+      /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+        e.target.value
+      )
+    ) {
+      setNewRecipe((state) => ({ ...state, img: e.target.value }))
+      setError((state) => ({ ...state, validImg: '' }))
+    }
+  }
 
   const handleBlur = (e) => {
-    if(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig.test(e.target.value)) {
-      setNewRecipe(state => ({...state, img: e.target.value}))
-      setError(state => ({...state, validImg: ''}))
-
+    if (
+      // eslint-disable-next-line
+      /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi.test(
+        e.target.value
+      )
+    ) {
+      setNewRecipe((state) => ({ ...state, img: e.target.value }))
+      setError((state) => ({ ...state, validImg: '' }))
     } else {
-      setError(state => ({...state, validImg: 'this link is not valid'}))
-
-    } 
-    if(e.target.value === '') {
-      setError(state => ({...state, validImg: 'image link field required'}))
+      setError((state) => ({ ...state, validImg: 'this link is not valid' }))
+    }
+    if (e.target.value === '') {
+      setError((state) => ({ ...state, validImg: 'image link field required' }))
     }
   }
   return (
     <ContentAddImg>
-    <div>
-        <input
+      <div>
+        <Input
           // autoFocus
           type='text'
           name='name'
-          // onChange={handleChange}
+          value={imagen}
+          onChange={handleChange}
           onBlur={handleBlur}
           placeholder=' '
         />
@@ -99,7 +121,7 @@ export const AddImg = ({ setError, setNewRecipe, error }) => {
         <input type='file' name='img' id='input-file' hidden ref={inputRef} />
       </Box>
       <p id='preview'>{valid.imgextensionValid}</p> */}
-      <p>{error.validImg}</p>
+      <Err>{error.validImg}</Err>
     </ContentAddImg>
   )
 }
@@ -116,40 +138,13 @@ const ContentAddImg = styled.div`
       width: 100%;
       font-family: 'Roboto', sans-serif;
       font-weight: 700;
-      color: #5757577e;
+      color: ${(props) => props.theme.color.addLabel};
       position: absolute;
       top: 0;
       left: 5px;
       transform: translateY(8px);
       transition: transform 0.5s, color 0.3s;
-      z-index: 100;
     }
-    input {
-      width: 100%;
-      background: none;
-      color: #706c6c;
-      font-family: 'Roboto', sans-serif;
-      /* font-size: 1rem; */
-      padding: 0.4rem 0.3rem;
-      border: none;
-      outline: none;
-      border-bottom: 1px solid #5757577e;
-      &:focus + label,
-      &:not(:placeholder-shown) + label {
-        transform: translateY(-12px) scale(0.7);
-        transform-origin: left top;
-        color: #3866f2;
-        z-index: 100;
-      }
-      z-index: 110;
-    }
-  }
-  p {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 0.5rem;
-    font-size: 0.7rem;
-    border-radius: 1rem;
-    color: red;
   }
 `
 
@@ -176,14 +171,14 @@ const ContentAddImg = styled.div`
 //   }
 // `
 
-const Btn = styled.button`
-  font-size: 1rem;
-  background: #09f;
-  padding: 0.3rem 0.8rem;
-  border-radius: 0.4rem;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.03);
-    transition: transform 0.2s ease;
-  }
-`
+// const Btn = styled.button`
+//   font-size: 1rem;
+//   background: #09f;
+//   padding: 0.3rem 0.8rem;
+//   border-radius: 0.4rem;
+//   cursor: pointer;
+//   &:hover {
+//     transform: scale(1.03);
+//     transition: transform 0.2s ease;
+//   }
+// `

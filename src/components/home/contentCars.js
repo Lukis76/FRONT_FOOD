@@ -4,7 +4,7 @@ import { Card } from '../card/card'
 import loader from '../../assets/gifs/food_loader_sarten.gif'
 import { center } from '../../style/shorcuts'
 
-export const ConstentCars = ({ perPage, recipes }) => {
+export const ContentCars = ({ perPage, recipes }) => {
   const p = useSelector((state) => state.tasks.paguination)
 
   return (
@@ -35,15 +35,17 @@ export const ConstentCars = ({ perPage, recipes }) => {
 }
 
 const ContentCard = styled.div`
-  /* margin-top: 1rem; */
   ${center()}
   width: 100%;
   height: 100%;
+  margin-bottom: .8rem;
 `
 const GridCards = styled.section`
   width: 100%;
+  max-width: 1000px;
   gap: 1rem;
   display: grid;
+  padding: 0 1rem;
   grid-template-columns: repeat(auto-fit, 18rem);
   justify-content: center;
 `

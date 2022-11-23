@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { paguination } from '../../app/actions/paguination'
 import { searchBarName } from '../../app/actions/searchBarName'
 import { SvgSearch } from '../../assets/svg/svgSearch'
 import { center } from '../../style/shorcuts'
@@ -12,6 +13,7 @@ export const SearchBar = () => {
   const handleChange = (e) => {
     setName(e.target.value)
     dispatch(searchBarName(e.target.value))
+    dispatch(paguination(1))
   }
 
   const handleSubmit = (e) => {
@@ -55,6 +57,9 @@ const Input = styled.input`
   background: ${(props) => props.theme.color.inputBg};
   color: ${(props) => props.theme.color.inputText};
   max-width: 18rem;
+  &::placeholder {
+    color: ${(props) => props.theme.color.inputText};
+  }
 `
 
 const BtnSearch = styled.button`
@@ -63,5 +68,4 @@ const BtnSearch = styled.button`
   border-radius: 0 0.3rem 0.3rem 0;
   height: 100%;
   background-color: ${(props) => props.theme.color.inputBtnBg};
-  color: ${(props) => props.theme.color.btnText};
 `

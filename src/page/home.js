@@ -5,15 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getRecipesAll } from '../app/actions/getRecipesAll'
 import { getTypes } from '../app/actions/getTypes'
-import { NextPage } from '../components/nextPage'
-import { Filter } from '../components/filter'
-import { ConstentCars } from '../components/cards/constentCars'
+import { NextPage } from '../components/home/nextPage'
+import { Filter } from '../components/home/filter'
+import { ContentCars } from '../components/home/contentCars'
 
 export const Home = ({ setTheme, theme }) => {
   const dispatch = useDispatch()
   const recipesAll = useSelector((state) => state.tasks.recipesAll)
   const recipes = useSelector((state) => state.tasks.recipes)
-  const types = useSelector((state) => state.tasks.types)
 
   const [perPage, setPerPage] = useState(9)
   const max = Math.ceil(recipes.length / perPage)
@@ -23,17 +22,18 @@ export const Home = ({ setTheme, theme }) => {
       dispatch(getRecipesAll())
       dispatch(getTypes())
     }
-  }, [])
+    // eslint-disable-next-line
+  }, [dispatch])
 
   return (
     <ContentHome>
       <NavBar setTheme={setTheme} theme={theme} />
       <Box>
         <Content>
-          <Filter types={types} setPerPage={setPerPage} />
+          <Filter setPerPage={setPerPage} />
           <NextPage max={max} />
         </Content>
-        <ConstentCars perPage={perPage} recipes={recipes} />
+        <ContentCars perPage={perPage} recipes={recipes} />
 
         <NextPage max={max} />
       </Box>
@@ -47,7 +47,7 @@ const ContentHome = styled.div`
 `
 const Box = styled.div`
   ${center('column', 'space-between')}
-  min-height: 90vh;
+  min-height: 85vh;
   width: 100%;
 `
 const Content = styled.div`
